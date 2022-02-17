@@ -1,2 +1,6 @@
 .DS_Store
 pymolrc
+__pycache__
+.vscode
+.qt_for_python
+.DS_Store
