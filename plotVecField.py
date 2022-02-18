@@ -6,7 +6,7 @@ import colorsys
 
 
 class vecClass:
-    def __init__(self, vec, origin, maxVec):
+    def __init__(self, vec, origin, maxVec, scale):
         x, y, z = vec
         hxy = np.hypot(x, y)
         size = np.hypot(hxy, z)
@@ -15,7 +15,7 @@ class vecClass:
         r, g, b = colorsys.hsv_to_rgb(hue/360, 1, 1)
         self.colour = [r, g, b]
 
-        self.scalingFactor = 10
+        self.scalingFactor = scale
         self.coneRatio = 0.2
         self.coneWidthRatio = 0.2
         self.arrowRadiusRatio = 0.06
@@ -78,7 +78,7 @@ class vecClass:
         # cgoList += [END]
         return(cgoList)
 
-def plotEField(vecFile, pointFile, name='eField'):
+def plotEField(vecFile, pointFile, name='eField', scale=10):
     vecs = np.load(vecFile)
     points = np.load(pointFile)
     x, y, z = np.split(vecs, 3, 1)
@@ -88,7 +88,7 @@ def plotEField(vecFile, pointFile, name='eField'):
 
     cgoList = []
     for vec, origin in zip(vecs, points):
-        cgoList +=  vecClass(vec, origin, maxVec).arrow()
+        cgoList +=  vecClass(vec, origin, maxVec, scale).arrow()
 
     cmd.load_cgo(cgoList, name)
     cmd.reset()
